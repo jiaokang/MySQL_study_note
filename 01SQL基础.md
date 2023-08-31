@@ -156,3 +156,132 @@ DML 操作是指对数据库中表记录的操作，主要包括表记录的插�
 
 ### 插入记录
 
+`INSERT INTO tablename (field1,field2,……fieldn) VALUES(value1,value2,……valuesn);`
+
+ 插入多条记录
+
+`INSERT INTO tablename (field1, field2,……fieldn)
+VALUES
+(record1_value1, record1_value2,……record1_valuesn),
+(record2_value1, record2_value2,……record2_valuesn),
+……
+(recordn_value1, recordn_value2,……recordn_valuesn)
+;`
+
+### 更新记录
+
+`UPDATE tablename SET field1=value1，field2=value2，……fieldn=valuen [WHERE CONDITION]`
+
+将表 emp 中 ename 为“lisa”的薪水（sal）从 3000 更改为 4000：
+
+`update emp set sal=4000 where ename='lisa';`
+
+更新多个表的数据
+
+`UPDATE t1,t2…tn set t1.field1=expr1,tn.fieldn=exprn [WHERE CONDITION]`
+
+同时更新表 emp 中的字段 sal 和表 dept 中的字段 deptname
+
+`update emp a,dept b set a.sal=a.sal*b.deptno,b.deptname=a.ename where
+a.deptno=b.deptno;`
+
+### 删除记录
+
+`DELETE FROM tablename [WHERE CONDITION]`
+
+在 emp 中将 ename 为‘dony’的记录全部删除，命令如下
+
+`delete from emp where ename='dony';`
+
+删除多个表的数据
+
+`DELETE t1,t2…tn FROM t1,t2…tn [WHERE CONDITION]`
+
+将表 emp 和 dept 中 deptno 为 3 的记录同时都删除
+
+`delete a,b from emp a,dept b where a.deptno=b.deptno and a.deptno=3;`
+
+## 查询记录
+
+`SELECT * FROM tablename [WHERE CONDITION]`
+
+其中“*”表示要将所有的记录都选出来，也可以用逗号分割的所有字段来代替
+
+查询不重复的记录。
+有时需要将表中的记录去掉重复后显示出来，可以用 distinct 关键字来实现
+
+
+
+### 聚合
+
+聚合操作的语法如下:
+
+`SELECT [field1,field2,……fieldn] fun_name
+FROM tablename
+[WHERE where_contition]
+[GROUP BY field1,field2,……fieldn
+[WITH ROLLUP]]
+[HAVING where_contition]`
+
+- fun_name 表示要做的聚合操作，也就是聚合函数，常用的有 sum（求和）、count(*)（记录数）、max（最大值）、min（最小值）。
+
+- GROUP BY 关键字表示要进行分类聚合的字段，比如要按照部门分类统计员工数量，部门就应该写在 group by 后面。
+- WITH ROLLUP 是可选语法，表明是否对分类聚合后的结果进行再汇总
+- HAVING 关键字表示对分类后的结果再进行条件的过滤
+- 
+
+
+
+### 连接查询
+
+NULL
+
+
+
+
+
+## DCL语句
+
+DCL 语句主要是 DBA 用来管理系统中的对象权限时所使用，一般的开发人员很少使用。下面
+通过一个例子来简单说明一下。
+
+
+
+创建一个数据库用户 z1，具有对 sakila 数据库中所有表的 SELECT/INSERT 权限：
+
+`grant select,insert on sakila.* to 'z1'@'localhost' identified by '123';`
+
+
+
+由于权限变更，需要将 z1 的权限变更，收回 INSERT，只能对数据进行 SELECT 操作：
+
+`revoke insert on sakila.* from 'z1'@'localhost';`
+
+
+
+## 帮助的使用
+
+### 按照层次查看帮助
+
+如果不知道帮助能够提供些什么，可以用“？contents”命令来显示所有可供查询的的分类
+
+
+
+`? contents`
+
+
+
+对于列出的分类，可以使用“? 类别名称”的方式针对用户感兴趣的内容做进一步的查看。
+例如，想看看 MySQL 中都支持哪些数据类型，可以执行“? data types”命令：
+
+`? data types`
+
+### 快速查阅帮助
+
+在实际应用当中，如果需要快速查阅某项语法时，可以使用关键字进行快速查询。例如，想
+知道 show 命令都能看些什么东西，可以用如下命令：
+
+
+
+`? show`
+
